@@ -3,4 +3,3 @@
 This repository contains my personal portfolio website and resume source code.
 
 - **portfolio-site**: The source code for the portfolio web application.
-- **subhronil_resume**: LaTeX and document sources for my resume.
