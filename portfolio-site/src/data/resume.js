@@ -15,7 +15,7 @@ export const profile = {
   home: 'Vadodara, Gujarat',
   status: 'currently orchestrating agents',
   since: 'Jul 2026 → Present',
-  bio: `Graduated Computer Science engineer from VIT with an AI/ML focus, now shipping agentic systems at Hitachi. I design stateful multi-agent workflows — LangGraph orchestration over Model Context Protocol servers — and translate dense ML pipelines into things people can actually see and trust. Equal parts researcher and full-stack builder: from GNN + Transformer models to real-time MERN platforms.`,
+  bio: `Graduated Computer Science engineer from VIT with an AI/ML focus, now shipping agentic systems at Hitachi. I design stateful multi-agent workflows — LangGraph orchestration over Model Context Protocol servers — build zero-shot visual inspection for the factory floor, and reproduce recent research on LLM reasoning, LLM safety under production serving, and robot safety. Equal parts researcher and full-stack builder: from DINOv2 feature matching to cloud-deployed React + Node apps.`,
   education: {
     school: 'Vellore Institute of Technology',
     place: 'Vellore',
@@ -40,7 +40,7 @@ export const skillGroups = [
     key: 'lang',
     label: 'Languages',
     accent: 'accent',
-    items: ['Python', 'C++', 'C', 'Java', 'JavaScript', 'Motoko', 'R', 'MATLAB', 'HTML', 'CSS'],
+    items: ['Python', 'C++', 'C', 'Java', 'JavaScript', 'TypeScript', 'R', 'MATLAB', 'Motoko', 'HTML', 'CSS'],
   },
   {
     key: 'aiml',
@@ -48,29 +48,33 @@ export const skillGroups = [
     accent: 'agent',
     featured: true,
     items: [
+      'PyTorch',
       'TensorFlow',
       'Keras',
-      'PyTorch',
       'scikit-learn',
+      'LightGBM',
       'LLMs',
       'RAG',
       'LangGraph',
       'MCP',
-      'Pandas',
-      'NumPy',
+      'vLLM',
+      'DINOv2',
+      'SAM 2',
+      'Gemini API',
+      'RL (PPO · Q-learning · GRPO)',
     ],
   },
   {
     key: 'cloud',
-    label: 'Databases & Cloud',
+    label: 'Systems & Cloud',
     accent: 'mint',
-    items: ['AWS', 'NLP', 'PostgreSQL', 'MySQL', 'MongoDB'],
+    items: ['AWS (Trainium/Neuron)', 'GCP (Cloud Run)', 'Docker', 'FastAPI', 'Isaac Sim / Lab', 'PostgreSQL', 'MySQL', 'MongoDB', 'SQLite'],
   },
   {
     key: 'web',
     label: 'Frameworks & Web',
     accent: 'live',
-    items: ['ReactJS', 'NodeJS', 'OpenCV', 'jQuery', 'Bootstrap'],
+    items: ['ReactJS', 'NodeJS', 'Streamlit', 'OpenCV', 'Manim'],
   },
   {
     key: 'tools',
@@ -100,35 +104,106 @@ export const work = {
       name: 'Agentic Travel Middleware',
       tag: 'Flagship · Agentic Systems',
       summary:
-        'A single natural-language prompt becomes a complete end-to-end itinerary — the system autonomously orchestrates train, hotel, and event bookings across MCP servers.',
+        'A single natural-language prompt becomes a complete end-to-end rail itinerary — the system autonomously orchestrates train, hotel, and event lookups across MCP servers.',
       demo: 'runAgent', // renders the interactive "Run My Agent" pipeline
       metrics: [
         { value: 3, suffix: '', label: 'MCP servers' },
-        { value: 6, suffix: '', label: 'tools exposed' },
-        { value: 6, suffix: '-node', label: 'LangGraph flow' },
-        { value: 7, suffix: '', label: 'use cases' },
+        { value: 9, suffix: '', label: 'tools exposed' },
+        { value: 9, suffix: '-node', label: 'LangGraph flow' },
+        { value: 9, suffix: '', label: 'use cases' },
       ],
       highlights: [
-        'Turned a single natural-language prompt into a complete end-to-end itinerary — autonomously orchestrating train, hotel, and event bookings across 3 MCP servers exposing 6 tools.',
-        'Architected a stateful 6-node LangGraph workflow with deterministic + LLM-driven routing across 7 use cases, backed by a dynamic registry that spawns each MCP server as an isolated subprocess and reflects tool schemas at runtime.',
+        'Turned a single natural-language prompt into a complete end-to-end itinerary across 3 MCP servers (transit, merchant, events) exposing 9 tools, shipped as a Dockerized FastAPI + Streamlit stack.',
+        'Architected a stateful 9-node LangGraph workflow with input guardrails and deterministic + LLM-driven routing over 9 use cases, backed by a registry that spawns each MCP server as an isolated subprocess and reflects tool schemas at runtime.',
+        'Phase 2: own the data and matching workstreams — designed the hub data model and a matching-engine prototype that balances traveler fit against operator goals via a Pareto skyline and friction scoring.',
       ],
     },
     {
-      key: 'manim',
+      key: 'inspection',
       index: '02',
-      name: 'Manim SOP Explainer',
-      tag: 'Technical Visualization · GSK',
+      name: 'Zero-shot Visual Inspection',
+      tag: 'Flagship · Computer Vision',
       summary:
-        'A 1,000+ line animated explainer that translates a complex ML process-discovery pipeline into a stakeholder-ready visual for GSK equipment-maintenance SOPs.',
-      stages: ['raw capture', '3D embedding', 'normalization', 'FSM parse'],
+        'Catches missing or wrongly fitted parts on factory assemblies — unclamped cables, unlatched connectors — by comparing a test photo against a single golden photo, with no training data or labels.',
+      stagesLabel: '// golden_vs_test_pipeline',
+      stages: ['golden photo', 'EfficientLoFTR + MAGSAC++', 'DINOv2 / ResNet18 features', 'random-field threshold', 'defect box'],
       metrics: [
-        { value: 1000, suffix: '+', label: 'lines of Manim' },
-        { value: 5, suffix: '-stage', label: 'discovery pipeline' },
-        { value: 10, suffix: ' → 4', label: 'steps → orderings' },
+        { value: 17, suffix: '×', label: 'fewer false alarms' },
+        { value: 0.89, suffix: '', label: 'defect-class F1' },
+        { value: 15, suffix: '', label: 'versions shipped' },
+        { value: 0, suffix: '', label: 'training images' },
       ],
       highlights: [
-        'Produced a 1,000+ line Manim explainer animating a 5-stage process-discovery pipeline — from raw demonstration capture through 3D embedding, normalization, and finite-state-machine (FSM) parsing.',
-        'Engineered 3D scene rendering (ThreeDAxes, Dot3D, animated camera orbits) and an FSM resolving 10 canonical steps into 4 validated task orderings.',
+        'Over 15 versions, cut false alarms per good frame from 6.9 to 0.40 and nearly doubled defect-class F1 (0.49 → 0.89) using frozen DINOv2/ResNet18 features, EfficientLoFTR + MAGSAC++ registration, and random-field-theory thresholds that replaced a naive test over-detecting by 1,000×.',
+        'Moved to a ResNet18 backbone that is 15× cheaper with a 3× finer grid on CPU, and benchmarked a 27B vision-language model to show it fails the task (81% false-positive rate).',
+      ],
+    },
+    {
+      key: 'debate',
+      index: '03',
+      name: 'Multi-agent LLM Reasoning',
+      tag: 'Research · MAD / iMAD (AAAI 2026)',
+      summary:
+        'Reproduced Multi-Agent Debate and iMAD on open-source models — when is it worth making LLMs argue, and when should one model just answer?',
+      metrics: [
+        { value: 63, suffix: '%', label: 'max token savings' },
+        { value: 90, prefix: '~', suffix: '%', label: 'of debate gain kept' },
+        { value: 6, suffix: '', label: 'benchmarks' },
+      ],
+      highlights: [
+        'Reproduced MAD and iMAD on Qwen3-8B across GSM8K, MATH-500, and MMLU-Pro, writing the full harness beyond the released classifier (41-feature extractor, sympy grading) plus a 63-item paper-fidelity audit.',
+        'iMAD cut debate tokens by 18–63% vs. always-on MAD while capturing ~90% of its accuracy gain on GSM8K; then built a 117-test pipeline analysing the debating agents’ hidden states layer by layer.',
+      ],
+    },
+    {
+      key: 'serving',
+      index: '04',
+      name: 'LLM Safety under Production Serving',
+      tag: 'Research · LLM Safety',
+      summary:
+        'Do activation-probe safety monitors stay calibrated when the model runs in vLLM — FP8 KV cache, co-batching, torch.compile — instead of offline?',
+      metrics: [
+        { value: 2, suffix: '', label: 'Qwen3 models' },
+        { value: 13, suffix: '', label: 'compiled runs audited' },
+        { value: 6, suffix: '', label: 'exact output classes' },
+      ],
+      highlights: [
+        'Owned serving engineering and all GPU experiments: made the pipeline model-independent (Qwen3-1.7B / 4B) and wrote the pre-registered addenda on capture checks, compile replicates, and load repeatability.',
+        'Diagnosed that changing almost any VLLM_* variable silently triggers a fresh compile, and built a compile guard to keep runs reproducible.',
+      ],
+    },
+    {
+      key: 'unisafe',
+      index: '05',
+      name: 'Robot Safety Filter Reproduction',
+      tag: 'Research · UNISafe (CoRL 2025)',
+      summary:
+        'Reproduced an uncertainty-aware safety filter for camera-driven robots — a DreamerV3 world model plus a reachability value function — on the Isaac Lab block-plucking benchmark.',
+      metrics: [
+        { value: 1000, suffix: '', label: 'trials per run' },
+        { value: 5, suffix: '', label: 'causes ruled out' },
+        { value: 40, suffix: '', label: 'grasp runs traced' },
+      ],
+      highlights: [
+        'Stood up Isaac Sim 4.2 + Isaac Lab on an RTX 4090, patched the upstream release, and ran 1,000-trial evaluations with and without the filter.',
+        'Ruled out 5 candidate causes of the gap to the paper (time limit, rendering, noise, OOD threshold, action sampling) and traced failures to policy gripper-open commands in a 40-run grasp study.',
+      ],
+    },
+    {
+      key: 'xpu',
+      index: '06',
+      name: 'GPU-to-Accelerator Migration',
+      tag: 'Strategy · AWS Trainium',
+      summary:
+        'Can LLM inference move off GPUs onto AI accelerators? Pressure-tested the plan against the AWS Neuron SDK before anyone spent the budget.',
+      metrics: [
+        { value: 4, suffix: '', label: 'blocking gaps found' },
+        { value: 8, suffix: '+', label: 'platforms surveyed' },
+        { value: 50, suffix: '%', label: 'less effort' },
+      ],
+      highlights: [
+        'Uncovered 4 blocking gaps in the proposed plan — pipeline parallelism, prefill–decode disaggregation, KV-cache transfer, and hybrid Trainium–GPU serving.',
+        'Surveyed 8+ accelerators (Trainium, TPU, MI300X, H100, Tenstorrent, Jetson Thor) and proposed a scoped path at half the effort (2–3 vs. 3–6 person-months).',
       ],
     },
   ],
@@ -137,12 +212,14 @@ export const work = {
 // The LangGraph pipeline visualized in the "Run My Agent" signature interaction.
 export const pipeline = [
   { id: 'prompt', label: 'NL Prompt', kind: 'input', note: '"Plan a 3-day trip with trains, a hotel, and events."' },
-  { id: 'planner', label: 'planner', kind: 'node', note: 'Decomposes intent into an ordered task plan.' },
-  { id: 'router', label: 'router', kind: 'node', note: 'Deterministic + LLM-driven routing across 7 use cases.' },
-  { id: 'registry', label: 'mcp_registry', kind: 'node', note: 'Discovers & spawns each MCP server as an isolated subprocess.' },
-  { id: 'exec', label: 'mcp_exec', kind: 'mcp', note: 'Reflects tool schemas at runtime · 3 servers · 6 tools.' },
-  { id: 'recorder', label: 'recorder', kind: 'node', note: 'Assembles the end-to-end itinerary.' },
-  { id: 'itinerary', label: 'Itinerary', kind: 'output', note: 'Trains booked · Hotel reserved · Events scheduled.' },
+  { id: 'guardrail', label: 'guardrail', kind: 'node', note: 'Rejects injection & out-of-scope requests before any planning.' },
+  { id: 'planner', label: 'planner', kind: 'node', note: 'Detects the use case (1 of 9) and builds an ordered task list.' },
+  { id: 'dispatcher', label: 'dispatcher', kind: 'node', note: 'Picks the next runnable task and routes it to an agent.' },
+  { id: 'agent', label: 'agent', kind: 'node', note: 'Deterministic or LLM agent prepares the tool call.' },
+  { id: 'exec', label: 'mcp_exec', kind: 'mcp', note: 'Calls the MCP tool · 3 servers · 9 tools.' },
+  { id: 'recorder', label: 'recorder', kind: 'node', note: 'Records results and loops until every task is done.' },
+  { id: 'composer', label: 'composer', kind: 'node', note: 'Weaves the results into one reply · output guardrail.' },
+  { id: 'itinerary', label: 'Itinerary', kind: 'output', note: 'Trains · Hotel · Events — one end-to-end plan.' },
 ]
 
 export const internships = [
@@ -150,13 +227,14 @@ export const internships = [
     company: 'Hitachi India Pvt. Ltd.',
     place: 'Bengaluru',
     title: 'Research & Development Intern',
-    dates: 'Jan 2026 — Jun 2026',
-    metric: { value: 30, prefix: '~', suffix: '%', label: 'downtime cut' },
+    dates: 'Jan 2026 — Jul 2026',
+    metric: { value: 227, suffix: 'K+', label: 'ATM journals parsed' },
     highlights: [
-      'Analyzed 50K+ ATM error logs to surface recurring failure patterns; built a predictive-maintenance model estimated to cut unplanned downtime by ~30%.',
-      'Designed a rule-based verification system flagging missed or out-of-sequence steps in GSK equipment-maintenance workflows, improving compliance-tracking accuracy.',
-      'Programmed a signal-processing module for real-time task validation via acoustic signatures — enabling touchless quality control on the factory floor.',
-      'Architected a monitoring dashboard consolidating 10+ data-center KPIs into a single operational view.',
+      'Built an ETL pipeline over 227K+ ATM electronic-journal files from 27 machines (decryption, merging, error-code extraction) and trained 8 failure-prediction models, with LightGBM reaching 0.83 ROC-AUC.',
+      'Built a video-to-SOP pipeline for GSK equipment maintenance: Gemini 2.5 extracts atomic actions from task videos, Q-learning process discovery with Petri-net conformance beats the heuristic baseline, and rule-based checks flag missed or out-of-sequence steps.',
+      'Produced a 1,000+ line Manim explainer animating the 5-stage process-discovery pipeline, with 3D embeddings and an FSM resolving 10 canonical steps into 4 validated task orderings.',
+      'Learned procedural task graphs from egocentric videos (CaptainCook4D) with RL, reaching loop-F1 of 1.00 and accepting 12% of invalid traces vs. 94% for a DAG baseline (NeurIPS 2024 DTGL).',
+      'Programmed real-time acoustic source localization (4-mic array, GCC-PHAT + CNN-BiGRU) for touchless task validation, and a dashboard consolidating 10+ data-center KPIs.',
     ],
   },
   {
@@ -175,6 +253,16 @@ export const internships = [
 ]
 
 export const projects = [
+  {
+    name: 'Almanac — Life Dashboard',
+    stack: ['Node 22', 'React', 'TypeScript', 'SQLite / Turso', 'Cloud Run'],
+    date: 'Nov 2026',
+    github: 'https://github.com/Subhronilmukhopadhyay/Life-dashboard',
+    metric: { value: 0, suffix: '', label: 'server npm dependencies' },
+    blurb:
+      'Multi-user dashboard for spending, trends, commitments, and routines, deployed on Google Cloud Run with Turso-hosted SQLite, a local replica, and daily snapshots. Zero-dependency Node 22 server with scrypt auth, signed sessions, and lockout; trend lines are least-squares fits gated on r² ≥ 0.25 so noise is never reported as a trend.',
+    tags: ['Full-stack', 'Cloud'],
+  },
   {
     name: 'TimeCapsule Connect',
     stack: ['MERN', 'PostgreSQL', 'SlateJS', 'Yjs'],
