@@ -269,3 +269,160 @@ a {
     stroke-dashoffset: -100;
   }
 }
+
+/* ============================================================
+   NEXUS HOUSE — 3D tour UI
+   ============================================================ */
+@layer components {
+  .tour-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-starlight) 14%, transparent);
+    background: color-mix(in oklab, var(--color-void) 55%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 0.45rem 0.95rem;
+    font-size: 0.85rem;
+    color: var(--color-starlight);
+    transition:
+      border-color 0.25s ease,
+      background 0.25s ease;
+  }
+  .tour-btn:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 10%, var(--color-void));
+  }
+
+  .dock-arrow {
+    display: grid;
+    place-items: center;
+    height: 2rem;
+    width: 2rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--color-starlight);
+    transition: background 0.2s ease;
+  }
+  .dock-arrow:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-starlight) 10%, transparent);
+  }
+  .dock-arrow:disabled {
+    opacity: 0.3;
+  }
+
+  /* pulsing in-scene marker */
+  .hotspot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--color-starlight);
+    white-space: nowrap;
+    animation: hotspot-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hotspot-dot {
+    position: relative;
+    height: 14px;
+    width: 14px;
+    border-radius: 999px;
+    background: var(--hs);
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--hs) 30%, transparent),
+      0 0 18px var(--hs);
+  }
+  .hotspot-dot::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 999px;
+    border: 1.5px solid var(--hs);
+    animation: hotspot-ring 1.8s ease-out infinite;
+  }
+  .hotspot-label {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-void) 78%, transparent);
+    border: 1px solid color-mix(in oklab, var(--hs) 35%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    opacity: 0.85;
+    transform: translateX(-2px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .hotspot:hover .hotspot-label,
+  .hotspot:focus-visible .hotspot-label,
+  .hotspot.is-active .hotspot-label {
+    opacity: 1;
+    transform: none;
+    border-color: var(--hs);
+  }
+  /* phones: dots only — the room list in the sheet names them */
+  @media (max-width: 859px) {
+    .hotspot:not(.is-active) .hotspot-label {
+      display: none;
+    }
+  }
+  .hotspot.is-active .hotspot-dot {
+    background: #fff;
+  }
+
+  /* room name tags in the overview */
+  .room-tag {
+    font-family: var(--font-display);
+    font-size: 13px;
+    white-space: nowrap;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    color: var(--color-starlight);
+    background: color-mix(in oklab, var(--color-void) 72%, transparent);
+    border: 1px solid color-mix(in oklab, var(--hs) 45%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+    animation: hotspot-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .room-tag .mono {
+    color: var(--hs);
+    font-size: 11px;
+  }
+  .room-tag.is-hover,
+  .room-tag:hover {
+    background: color-mix(in oklab, var(--hs) 18%, var(--color-void));
+    box-shadow: 0 0 22px -4px var(--hs);
+  }
+}
+
+@keyframes hotspot-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes hotspot-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+}

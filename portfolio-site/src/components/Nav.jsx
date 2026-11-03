@@ -3,7 +3,7 @@ import { motion, useScroll, useSpring, useReducedMotion, AnimatePresence } from 
 import { navSections, profile, contact } from '../data/resume'
 import { useActiveSection } from '../hooks'
 
-export default function Nav() {
+export default function Nav({ onTour }) {
   const active = useActiveSection()
   const reduce = useReducedMotion()
   const [scrolled, setScrolled] = useState(false)
@@ -89,6 +89,15 @@ export default function Nav() {
                 {s.label}
               </a>
             ))}
+            {onTour && (
+              <button
+                type="button"
+                onClick={onTour}
+                className="ml-2 rounded-full bg-accent/10 px-3.5 py-1.5 text-sm text-accent transition hover:bg-accent/20"
+              >
+                3D tour
+              </button>
+            )}
             <a
               href={contact.resume}
               target="_blank"
@@ -143,6 +152,19 @@ export default function Nav() {
                 {s.label}
               </motion.a>
             ))}
+            {onTour && (
+              <motion.button
+                type="button"
+                onClick={() => {
+                  setOpen(false)
+                  onTour()
+                }}
+                {...menuItem(navSections.length)}
+                className="mt-4 rounded-full bg-accent/10 px-5 py-2 text-accent"
+              >
+                Enter the 3D tour
+              </motion.button>
+            )}
             <motion.a
               href={contact.resume}
               target="_blank"

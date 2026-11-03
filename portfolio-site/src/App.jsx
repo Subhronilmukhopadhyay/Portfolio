@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -12,8 +12,62 @@ import Contact from './components/Contact'
 import SceneBoundary from './components/SceneBoundary'
 
 const CanvasScene = lazy(() => import('./three/CanvasScene'))
+const Tour = lazy(() => import('./tour/Tour'))
+
+const VIEW_KEY = 'nexus-view'
+
+function hasWebGL() {
+  try {
+    const c = document.createElement('canvas')
+    return !!(c.getContext('webgl2') || c.getContext('webgl'))
+  } catch {
+    return false
+  }
+}
+
+/**
+ * 3D house tour by default; the classic scrolling page for deep links
+ * (#work), reduced-motion visitors, no WebGL, or anyone who picked it.
+ */
+function initialView() {
+  const q = new URLSearchParams(window.location.search).get('view')
+  if (q === 'classic' || q === 'tour') return q
+  if (window.location.hash.length > 1) return 'classic'
+  try {
+    const saved = localStorage.getItem(VIEW_KEY)
+    if (saved === 'classic' || saved === 'tour') return saved
+  } catch {
+    // storage blocked — fall through to the defaults
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'classic'
+  return hasWebGL() ? 'tour' : 'classic'
+}
 
 export default function App() {
+  const [view, setView] = useState(initialView)
+  const pick = (v) => {
+    setView(v)
+    window.scrollTo(0, 0)
+    try {
+      localStorage.setItem(VIEW_KEY, v)
+    } catch {
+      // ignore
+    }
+  }
+
+  if (view === 'tour') {
+    return (
+      <div className="noise">
+        <Suspense fallback={<div className="fixed inset-0 bg-void" />}>
+          <Tour onClassic={() => pick('classic')} />
+        </Suspense>
+      </div>
+    )
+  }
+  return <ClassicSite onTour={() => pick('tour')} />
+}
+
+function ClassicSite({ onTour }) {
   const reduce = useReducedMotion()
 
   return (
@@ -52,7 +106,7 @@ export default function App() {
 
       {/* content */}
       <div className="relative z-10">
-        <Nav />
+        <Nav onTour={onTour} />
         <main id="main-content" tabIndex={-1} className="outline-none">
           <Hero />
           <About />

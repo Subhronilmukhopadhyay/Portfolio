@@ -8,6 +8,7 @@ export default class SceneBoundary extends Component {
   }
   componentDidCatch(err) {
     console.warn('[NEXUS] 3D scene disabled:', err?.message)
+    this.props.onError?.(err)
   }
   render() {
     return this.state.failed ? null : this.props.children
