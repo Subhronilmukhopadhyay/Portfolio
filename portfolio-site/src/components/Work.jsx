@@ -85,7 +85,7 @@ function RunMyAgent() {
       {/* pipeline — extra vertical padding so the scaled node + top packet dot
           + glow have room and aren't clipped by the horizontal scroll box */}
       <div className="relative mt-4 overflow-x-auto no-scrollbar px-1 pt-7 pb-4">
-        <div className="flex items-stretch gap-2 min-w-[560px]">
+        <div className="flex items-stretch gap-2 min-w-[760px]">
           {pipeline.map((n, i) => {
             const k = KIND[n.kind]
             const active = i <= step
@@ -180,12 +180,12 @@ function RunMyAgent() {
   )
 }
 
-function StageStrip({ stages }) {
+function StageStrip({ stages, label }) {
   return (
     <div className="relative glass rounded-2xl p-5 md:p-7 overflow-hidden">
       <HudCorners color="agent" />
       <div className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-agent/10 blur-3xl" />
-      <div className="relative mono text-[11px] text-agent mb-5">// process_discovery_pipeline</div>
+      <div className="relative mono text-[11px] text-agent mb-5">{label}</div>
       <div className="relative flex flex-wrap items-center gap-2.5">
         {stages.map((s, i) => (
           <div key={s} className="flex items-center gap-2.5">
@@ -248,14 +248,13 @@ function ProjectBlock({ project, accent, children }) {
 }
 
 export default function Work() {
-  const [middleware, manim] = work.projects
   return (
     <Section id="work">
       <SectionHeading
         index="03"
         tag="WORK"
         title="Mission log — Hitachi"
-        sub="One role — two systems I shipped end-to-end."
+        sub="One role — six systems, from agentic LLMs and factory vision to robot safety."
       />
 
       {/* the role itself — establishes this is a job, not a single project */}
@@ -288,14 +287,14 @@ export default function Work() {
         </div>
       </Reveal>
 
-      {/* the two projects, each fully self-contained */}
+      {/* each project fully self-contained; demo / stages render its centrepiece */}
       <div className="space-y-16">
-        <ProjectBlock project={middleware} accent="accent">
-          <RunMyAgent />
-        </ProjectBlock>
-        <ProjectBlock project={manim} accent="agent">
-          <StageStrip stages={manim.stages} />
-        </ProjectBlock>
+        {work.projects.map((p, i) => (
+          <ProjectBlock key={p.key} project={p} accent={i % 2 ? 'agent' : 'accent'}>
+            {p.demo === 'runAgent' && <RunMyAgent />}
+            {p.stages && <StageStrip stages={p.stages} label={p.stagesLabel} />}
+          </ProjectBlock>
+        ))}
       </div>
     </Section>
   )
